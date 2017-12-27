@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- Standard Meta -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<!-- Site Properities -->
+		<title>Login Example - Semantic</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/abb.css">
+		<script src="/static/js/library/jquery.min.js"></script>
+		<script src="/static/css/semantic.min.js"></script>
+		<script src="/static/css/anzhuobangbang.js"></script>
+		<script src="/static/laydate/laydate.js"></script>
+	</head>
+
+	<body>
+		<div class="ui container" id="nav"></div>
+		<div class="ui container">
+			<div class="ui grid">
+				<div class="three wide column">
+					<div class="ui vertical pointing menu" id="menu">
+					</div>
+				</div>
+				<div class="thirteen wide column">
+					<h3>
+					<div class="ui large breadcrumb">
+						<a class="section">首页</a>
+						<i class="right chevron icon divider"></i>
+						<a class="section">下载列表</a>
+					</div>
+					</h3>
+					<form class="ui form" action="download" method="get">
+						<div class="fields">
+							<div class="two wide field">
+								<a class="section">StartTime：</a>
+							</div>
+							<div class="three wide field" style="width:50px; height:50px;">
+							<input onclick="laydate()" name="startTime" id="startTime" >
+							</div>
+							<div class="two wide field">
+							<a class="section">EndTime：</a>
+							</div>
+							<div class="three wide field" style="width:50px; height:50px;">
+							<input  onclick="laydate()" name="endTime" id="endTime" >
+							</div>
+							<div class="one wide field">
+							<a class="section">IP：</a>
+							</div>
+							<div class="three wide field" style="width:50px; height:50px;">
+								<input name="ip" value="{{.IPname}}"></input>
+							</div>
+							<div class="two wide field" style="text-align:right;">
+								<button class="ui teal button">Query</button>
+							</div>
+							</div>
+					</form>
+					<a class="section">总下载量:{{.TotalCount}},总流量:{{.TotalSize}}</a>  
+					<table class="ui column table">
+						<thead>
+								<th>IP地址</th>
+								<th>下载文件名</th>
+								<th>下载文件大小(KB)</th>
+								<th>下载时间</th>
+								<th></th>
+						</thead>
+						<tbody>
+								{{range .CateList}}
+								<tr>
+									<td>{{.IP}}</td>
+									<td>{{.DownloadName}}</td>
+									<td>{{.DownloadSize}}</td>
+									<td>{{.DownloadTime}}</td>
+								</tr>
+							{{end}}
+
+						</tbody>
+						<tfoot>
+							<tr>
+							<th>	</th><th colspan="4">
+								<div class="ui right floated pagination menu" id="aPage">
+								
+									{{if .paginator}}
+									
+									{{if .paginator.HasPrev}}
+									
+									<a class="icon item" href="{{.paginator.PageLinkPrev}}">
+									<i class="left chevron icon"></i></a>
+									{{end}}
+									
+								{{range $index, $page := .paginator.Pages}}
+									 			<a  href="{{$.paginator.PageLink $page}}" class="item {{if $.paginator.IsActive .}} active{{end}}">{{$page}}</a>
+												{{end}}
+												{{if .paginator.HasNext}}
+												<a class="icon item" href="{{.paginator.PageLinkNext}}">
+																		<i class="right chevron icon"></i>
+																	</a>
+																	{{end}}
+													{{end}}
+								</div>
+								</th>
+							</tr>
+						</tfoot>
+					</table>
+
+				</div>
+
+			</div>
+
+		</div>
+		<script >
+			$("#startTime").attr("value",{{.StartTime}});
+				$("#endTime").attr("value",{{.EndTime}});
+		</script>
+	</body>
+
+</html>
